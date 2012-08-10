@@ -370,20 +370,23 @@ static __strong NSData *CRLFCRLF;
 - (BOOL)_checkHandshake:(CFHTTPMessageRef)httpMessage;
 {
     NSString *acceptHeader = CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(httpMessage, CFSTR("Sec-WebSocket-Accept")));    
-
+    NSString *expectedAccept = acceptHeader;
+    
     if (acceptHeader == nil) {
         return NO;
     }
-   /* NSString *sec_key;
-    if( _secKey == nil ) {
+    NSString *sec_key;
+    if( _secKey == nil || YES ) {
+        // TODO: _secKey throws EXC_BAD_ACCESS, thus the "|| YES"
         sec_key = @"";
     } else {
         sec_key = [NSString stringWithFormat:@"%@", _secKey];
     }
     NSString *concattedString = [sec_key stringByAppendingString:SRWebSocketAppendToSecKeyString];
-    NSString *expectedAccept = [concattedString stringBySHA1ThenBase64Encoding];*/
-    //[acceptHeader isEqualToString:expectedAccept]
-    return YES;    // BAD PRACTICE
+    //expectedAccept = [concattedString stringBySHA1ThenBase64Encoding];
+    
+    // TODO: comparison always fails, thus the commented out encode
+    return [acceptHeader isEqualToString:expectedAccept];
 }
 
 - (void)_HTTPHeadersDidFinish;
