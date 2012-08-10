@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FPAppDelegate.h"
+#import "ExampleAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([FPAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([ExampleAppDelegate class]));
     }
 }
