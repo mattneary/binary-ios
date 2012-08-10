@@ -29,12 +29,12 @@
     // not necessary
 }
 - (void)didPause {
-    if( self.piped ) {
+    if( self.piped && [self.destination respondsToSelector:@selector(pause)] ) {
         [self.destination pause];
     }
 }
 - (void)didResume {
-    if( self.piped ) {
+    if( self.piped && [self.destination respondsToSelector:@selector(resume)] ) {
         [self.destination resume];
     }
 }

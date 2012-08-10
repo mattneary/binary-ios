@@ -22,17 +22,17 @@
 
 // <SRWebSocketDelegate>
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
-    if( self.delegate != nil ) {
+    if( self.delegate != nil && [self.delegate respondsToSelector:@selector(clientOpened)] ) {
         [self.delegate clientOpened];
     }
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-    if( self.delegate != nil ) {
+    if( self.delegate != nil && [self.delegate respondsToSelector:@selector(clientErred)] ) {
         [self.delegate clientErred: error];
     }
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-    if( self.delegate != nil ) {
+    if( self.delegate != nil && [self.delegate respondsToSelector:@selector(clientClosedWithCode:reason:wasClean:)] ) {
         [self.delegate clientClosedWithCode:code reason:reason wasClean:wasClean];
     }
 }
@@ -98,8 +98,6 @@
     stream.delegate = delegate;
     [self.streams setObject:stream forKey:[NSNumber numberWithInt:stream._id]];
     [stream openWithMeta:meta];
-    // TODO: decide if event should fire for creation
-    //[self.delegate streamCreated:stream withMeta:meta];
     return stream;
 }
 - (void)openClient {
