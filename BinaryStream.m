@@ -42,6 +42,9 @@
     if( self.piped ) {
         [self.destination end];
     }
+    if( self.delegate != nil ) {
+        [self.delegate streamEnded];
+    }
     [self.client destroyStream:self._id];
 }
 - (void)didClose {

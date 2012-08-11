@@ -25,6 +25,7 @@
 @protocol StreamDelegate <NSObject>
 - (void)streamGotData: (id)data;
 - (void)streamGotError: (NSError *)error;
+- (void)streamEnded;
 @end
 
 @protocol WriteStream <NSObject>
