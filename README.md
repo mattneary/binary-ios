@@ -34,6 +34,17 @@ Abide to `StreamClientDelegate` Protocol:
 @end
 ```	
 
+
+When handling created streams, a delegate should follow the `StreamDelegate` protocol:
+
+```objective-c
+@protocol StreamDelegate <NSObject>
+- (void)streamGotData: (id)data;
+- (void)streamGotError: (NSError *)error;
+- (void)streamEnded;
+@end
+```
+
 Create, write to, listen to, end, and pipe streams as you please. Use the `FileReadStream` and `FileWriteStream` which are file interfaces following the same protocols as `BinaryStream`s:
 
 ```objective-c
