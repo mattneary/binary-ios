@@ -1,3 +1,8 @@
+Setup
+=====
+
+![Frameworks and Sources](http://f.cl.ly/items/2r0F2N1i1X413P37090b/Screen%20Shot%202012-08-11%20at%201.26.46%20PM.png)
+
 Usage
 =====
 
