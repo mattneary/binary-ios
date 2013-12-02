@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Binary iOS by mattneary</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Binary iOS</h1>
+        <p>Binary Streams for iOS</p>
+
+        <p class="view"><a href="https://github.com/mattneary/binary-ios">View the Project on GitHub <small>mattneary/binary-ios</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/mattneary/binary-ios/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mattneary/binary-ios/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mattneary/binary-ios">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Binary iOS is a port of the Binary.js library for transmission of binary data over web sockets. It serves as a platform for powerful, realtime applications.</p>
+
+<h1>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h1>
+
+<p><img src="http://f.cl.ly/items/2r0F2N1i1X413P37090b/Screen%20Shot%202012-08-11%20at%201.26.46%20PM.png" alt="Frameworks and Sources"></p>
+
+<h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>Include StreamClient.h:</p>
+
+<div class="highlight highlight-objective-c"><pre><span class="cp">#import "StreamClient.h"</span>
+</pre></div>
+
+<p>Create a client to a websocket, set to an instance variable then set a delegate and open:</p>
+
+<div class="highlight highlight-objective-c"><pre><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="p">{</span>
+    <span class="n">_client</span> <span class="o">=</span> <span class="p">[</span><span class="n">StreamClient</span> <span class="n">clientWithAddress</span><span class="o">:</span><span class="p">[</span><span class="n">NSURL</span> <span class="n">URLWithString</span><span class="o">:</span><span class="s">@"ws://filepiper.com/abcd"</span><span class="p">]];</span>
+    <span class="n">_client</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">_client</span> <span class="n">openClient</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Abide to <code>StreamClientDelegate</code> Protocol: </p>
+
+<div class="highlight highlight-objective-c"><pre><span class="k">@protocol</span> <span class="nc">StreamClientDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">streamCreated</span><span class="o">:</span> <span class="p">(</span><span class="n">BinaryStream</span> <span class="o">*</span><span class="p">)</span><span class="n">stream</span> <span class="n">withMeta</span><span class="o">:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">meta</span><span class="p">;</span>
+<span class="k">@optional</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">clientOpened</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">clientClosedWithCode:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">code</span> <span class="nf">reason:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">reason</span> <span class="nf">wasClean:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">wasClean</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">clientErred:</span> <span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></div>
+
+<p>When handling created streams, a delegate should follow the <code>StreamDelegate</code> protocol:</p>
+
+<div class="highlight highlight-objective-c"><pre><span class="k">@protocol</span> <span class="nc">StreamDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">streamGotData</span><span class="o">:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">data</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">streamGotError:</span> <span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">streamEnded</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></div>
+
+<p>Create, write to, listen to, end, and pipe streams as you please. Use the <code>FileReadStream</code> and <code>FileWriteStream</code> which are file interfaces following the same protocols as <code>BinaryStream</code>s:</p>
+
+<div class="highlight highlight-objective-c"><pre><span class="k">@protocol</span> <span class="nc">WriteStream</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">write</span><span class="o">:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">data</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">end</span><span class="p">;</span>
+<span class="k">@optional</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">pause</span><span class="p">;</span>  <span class="c1">//TODO</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">resume</span><span class="p">;</span> <span class="c1">//TODO</span>
+<span class="k">@end</span>
+
+<span class="k">@protocol</span> <span class="nc">ReadStream</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">open</span><span class="p">;</span>
+<span class="k">@optional</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">pipe</span><span class="o">:</span> <span class="p">(</span><span class="n">NSObject</span><span class="o">&lt;</span><span class="n">WriteStream</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">destination</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pause</span><span class="p">;</span>  <span class="c1">//TODO</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">resume</span><span class="p">;</span> <span class="c1">//TODO</span>
+<span class="k">@end</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mattneary">mattneary</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
